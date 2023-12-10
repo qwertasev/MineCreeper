@@ -1,0 +1,51 @@
+Sweeper Square Class: package org.cis1200.minesweeper;
+
+public class SweeperSquare {
+    // Stores whether square is/isn't a mine/covered/a flag
+    private boolean mine;
+    private boolean covered;
+    private boolean flagged;
+
+    // Stores the number of mines surrounding the square
+    private int numSurrMines;
+
+    public SweeperSquare(boolean mine, boolean covered, boolean flagged, int numSurrMines) {
+        this.mine = mine;
+        this.covered = covered;
+        this.flagged = flagged;
+        this.numSurrMines = numSurrMines;
+    }
+
+    public boolean getMine() {
+        return mine;
+    }
+
+    public void setMine(boolean mine) {
+        this.mine = mine;
+    }
+
+    public boolean getCovered() {
+        return covered;
+    }
+
+    public void setCovered(boolean covered) {
+        this.covered = covered;
+    }
+
+    public boolean getFlagged() {
+        return flagged;
+    }
+
+    public void setFlagged(boolean flagged) {
+        this.flagged = flagged;
+    }
+
+    public int getNumSurrMines() {
+        return numSurrMines;
+    }
+
+    public void setNumSurrMines(int numSurrMines) {
+        this.numSurrMines = numSurrMines;
+    }
+
+}
