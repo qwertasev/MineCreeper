@@ -1,0 +1,43 @@
+package org.cis1200.minesweeper;
+
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
+public class MinecraftMusic {
+    public static void main(String[] args) {
+        String filePath = "files/MinecraftMusicCut.wav";
+        playMusic(filePath);
+        String filePath2 = "files/MinecraftExplosion-2.wav";
+        playMusic(filePath2);
+    }
+
+    public static void playMusic(String location) {
+        try {
+            File musicPath = new File(location);
+            if (musicPath.exists()) {
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInput);
+                clip.start();
+            } else {
+                System.out.println("Cant find file");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void playExplosionSound(String location) {
+        try {
+            File musicPath2 = new File(location);
+            AudioInputStream audioInput2 = AudioSystem.getAudioInputStream(musicPath2);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInput2);
+            clip.start();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
