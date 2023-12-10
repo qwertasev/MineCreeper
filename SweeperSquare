@@ -1,4 +1,4 @@
-Sweeper Square Class: package org.cis1200.minesweeper;
+package org.cis1200.minesweeper;
 
 public class SweeperSquare {
     // Stores whether square is/isn't a mine/covered/a flag
