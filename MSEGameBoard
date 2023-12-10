@@ -1,0 +1,191 @@
+MSGameBoard Class: package org.cis1200.minesweeper;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class MSGameBoard extends JPanel {
+    private Minesweeper ms;
+    private JLabel status;
+
+    // Game constants
+    public static final int BOARD_WIDTH = 640;
+    public static final int BOARD_HEIGHT = 720;
+    public static final String MINE_IMG = "files/MineImage.png";
+    public static final String COVERED_IMG = "files/coveredImage.png";
+    public static final String FLAG_IMG = "files/FlagImage.png";
+    public static final String DIRT_IMG = "files/DirtImage.jpeg";
+    public static final String ONE_IMG = "files/SurroundingCount/1.png";
+    public static final String TWO_IMG = "files/SurroundingCount/2.png";
+    public static final String THREE_IMG = "files/SurroundingCount/3.png";
+    public static final String FOUR_IMG = "files/SurroundingCount/4.png";
+    public static final String FIVE_IMG = "files/SurroundingCount/5.png";
+    public static final String SIX_IMG = "files/SurroundingCount/6.png";
+    public static final String SEVEN_IMG = "files/SurroundingCount/7.png";
+    public static final String EIGHT_IMG = "files/SurroundingCount/8.png";
+    public static final String NINE_IMG = "files/SurroundingCount/9.png";
+    public static final String TITLE_IMG = "files/TitleImg.png";
+
+    /**
+     * Initializes the game board.
+     */
+    public MSGameBoard(JLabel statusInit) {
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        setFocusable(true);
+        ms = new Minesweeper(); // initializes model for the game
+        status = statusInit; // initializes the status JLabel
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                Point p = e.getPoint();
+
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    ms.showSquare(p.y / 40, p.x / 40);
+                    updateStatus();
+                    repaint();
+                }
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    ms.flagSquare(p.y / 40, p.x / 40);
+                    updateStatus();
+                    repaint();
+                }
+
+                // updateStatus(); // updates the status JLabel
+                // repaint(); // repaints the game board
+            }
+        });
+    }
+
+    public void reset() {
+        ms.reset();
+        ImageIcon titleIcon = new ImageIcon(TITLE_IMG);
+        status.setIcon(titleIcon);
+        status.setText("");
+        repaint();
+        // Makes sure this component has keyboard/mouse focus
+        requestFocusInWindow();
+    }
+
+    /**
+     * Updates the JLabel to reflect the current state of the game.
+     */
+    private void updateStatus() {
+        if (ms.getGameStatus()) {
+            ImageIcon gameFinishedIcon = ms.gameFinished();
+            status.setIcon(gameFinishedIcon);
+            status.setText("");
+        } else {
+            ImageIcon warningIcon = new ImageIcon("files/GameText.png");
+            status.setIcon(warningIcon);
+            status.setText("");
+        }
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        SweeperSquare[][] board = ms.getBoard();
+
+        for (int i = 0; i < 16; i++) {
+            for (int j = 0; j < 16; j++) {
+                SweeperSquare square = board[i][j];
+                if (square.getCovered()) {
+                    ImageIcon coveredIcon = new ImageIcon(COVERED_IMG);
+                    Image coveredImage = coveredIcon.getImage();
+                    g.drawImage(coveredImage, 40 * j, 40 * i, 40, 40, null);
+                    if (square.getFlagged()) {
+                        ImageIcon flagIcon = new ImageIcon(FLAG_IMG);
+                        Image flagImage = flagIcon.getImage();
+                        g.drawImage(flagImage, 40 * j, 40 * i, 40, 40, null);
+                    }
+                } else {
+                    if (square.getMine()) {
+                        ImageIcon mineIcon = new ImageIcon(MINE_IMG);
+                        Image mineImage = mineIcon.getImage();
+                        g.drawImage(mineImage, 40 * j, 40 * i, 40, 40, null);
+                    } else if (square.getNumSurrMines() == 0) {
+                        ImageIcon revealedIcon = new ImageIcon(DIRT_IMG);
+                        Image revealedImage = revealedIcon.getImage();
+                        g.drawImage(revealedImage, 40 * j, 40 * i, 40, 40, null);
+                    } else if (square.getNumSurrMines() == 1) {
+                        ImageIcon oneIcon = new ImageIcon(ONE_IMG);
+                        Image oneImage = oneIcon.getImage();
+                        g.drawImage(oneImage, 40 * j, 40 * i, 40, 40, null);
+                    } else if (square.getNumSurrMines() == 2) {
+                        ImageIcon twoIcon = new ImageIcon(TWO_IMG);
+                        Image twoImage = twoIcon.getImage();
+                        g.drawImage(twoImage, 40 * j, 40 * i, 40, 40, null);
+                    } else if (square.getNumSurrMines() == 3) {
+                        ImageIcon threeIcon = new ImageIcon(THREE_IMG);
+                        Image threeImage = threeIcon.getImage();
+                        g.drawImage(threeImage, 40 * j, 40 * i, 40, 40, null);
+                    } else if (square.getNumSurrMines() == 4) {
+                        ImageIcon fourIcon = new ImageIcon(FOUR_IMG);
+                        Image fourImage = fourIcon.getImage();
+                        g.drawImage(fourImage, 40 * j, 40 * i, 40, 40, null);
+                    } else if (square.getNumSurrMines() == 5) {
+                        ImageIcon fiveIcon = new ImageIcon(FIVE_IMG);
+                        Image fiveImage = fiveIcon.getImage();
+                        g.drawImage(fiveImage, 40 * j, 40 * i, 40, 40, null);
+                    } else if (square.getNumSurrMines() == 6) {
+                        ImageIcon sixIcon = new ImageIcon(SIX_IMG);
+                        Image sixImage = sixIcon.getImage();
+                        g.drawImage(sixImage, 40 * j, 40 * i, 40, 40, null);
+                    } else if (square.getNumSurrMines() == 7) {
+                        ImageIcon sevenIcon = new ImageIcon(SEVEN_IMG);
+                        Image sevenImage = sevenIcon.getImage();
+                        g.drawImage(sevenImage, 40 * j, 40 * i, 40, 40, null);
+                    } else if (square.getNumSurrMines() == 8) {
+                        ImageIcon eightIcon = new ImageIcon(EIGHT_IMG);
+                        Image eightImage = eightIcon.getImage();
+                        g.drawImage(eightImage, 40 * j, 40 * i, 40, 40, null);
+                    } else if (square.getNumSurrMines() == 9) {
+                        ImageIcon nineIcon = new ImageIcon(NINE_IMG);
+                        Image nineImage = nineIcon.getImage();
+                        g.drawImage(nineImage, 40 * j, 40 * i, 40, 40, null);
+                    }
+                }
+            }
+        }
+        // Draws board grid
+        g.setColor(Color.BLACK);
+        g.drawLine(40, 0, 40, 640);
+        g.drawLine(80, 0, 80, 640);
+        g.drawLine(120, 0, 120, 640);
+        g.drawLine(160, 0, 160, 640);
+        g.drawLine(200, 0, 200, 640);
+        g.drawLine(240, 0, 240, 640);
+        g.drawLine(280, 0, 280, 640);
+        g.drawLine(320, 0, 320, 640);
+        g.drawLine(360, 0, 360, 640);
+        g.drawLine(400, 0, 400, 640);
+        g.drawLine(440, 0, 440, 640);
+        g.drawLine(480, 0, 480, 640);
+        g.drawLine(520, 0, 520, 640);
+        g.drawLine(560, 0, 560, 640);
+        g.drawLine(600, 0, 600, 640);
+
+        g.drawLine(0, 40, 640, 40);
+        g.drawLine(0, 80, 640, 80);
+        g.drawLine(0, 120, 640, 120);
+        g.drawLine(0, 160, 640, 160);
+        g.drawLine(0, 200, 640, 200);
+        g.drawLine(0, 240, 640, 240);
+        g.drawLine(0, 280, 640, 280);
+        g.drawLine(0, 320, 640, 320);
+        g.drawLine(0, 360, 640, 360);
+        g.drawLine(0, 400, 640, 400);
+        g.drawLine(0, 440, 640, 440);
+        g.drawLine(0, 480, 640, 480);
+        g.drawLine(0, 520, 640, 520);
+        g.drawLine(0, 560, 640, 560);
+        g.drawLine(0, 600, 640, 600);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(BOARD_WIDTH, BOARD_HEIGHT);
+    }
+}
