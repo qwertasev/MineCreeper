@@ -1,4 +1,4 @@
-Minesweeper Class: package org.cis1200.minesweeper;
+package org.cis1200.minesweeper;
 
 import javax.swing.*;
 import java.util.Random;
